@@ -1,0 +1,12 @@
+:root {
+  --ivory: #f5eee7;
+  --paper: #fbf8f4;
+  --ink: #121212;
+  --muted: #6f6861;
+  --line: rgba(18, 18, 18, 0.17);
+  --gold: #b28a3b;
+  --gold-soft: #d1b77e;
+  --serif: "Cormorant Garamond", "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  --sans: "Manrope", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}

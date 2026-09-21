@@ -1,0 +1,81 @@
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+
+.reveal.is-visible { opacity: 1; transform: none; }
+
+.gallery-card.reveal { transform: translateY(28px) scale(.98); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.gallery-card.reveal.is-visible { transform: translateY(0) scale(1); }
+.gallery-card:nth-child(2) { transition-delay: .08s; }
+.gallery-card:nth-child(3) { transition-delay: .16s; }
+.gallery-card:nth-child(4) { transition-delay: .24s; }
+
+.gallery__intro { animation: galleryIntroReveal 1s .15s var(--ease) both; }
+
+@keyframes galleryIntroReveal {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateX(-12px); }
+  to { opacity: .78; clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+@keyframes galleryIntroLine {
+  from { transform: scaleY(0); opacity: 0; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+.hero__seal { animation: floatSeal 8s ease-in-out infinite; }
+.hero__title-word { opacity: 0; animation: heroWordIn .9s var(--ease) both; }
+.hero__title-word--accent { animation-name: heroAccentIn; animation-delay: .18s; }
+
+@keyframes floatSeal {
+  0%, 100% { transform: translateY(-50%) rotate(-1deg); }
+  50% { transform: translateY(calc(-50% - 9px)) rotate(1deg); }
+}
+
+@keyframes heroOrbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes mobileSealFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@media (max-width: 800px) {
+  .hero__seal { animation: mobileSealFloat 8s ease-in-out infinite; }
+}
+
+@keyframes heroWordIn {
+  from { opacity: 0; transform: translateY(30px); filter: blur(8px); letter-spacing: .01em; }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); letter-spacing: -.075em; }
+}
+
+@keyframes heroAccentIn {
+  from { opacity: 0; transform: translateY(30px); filter: blur(8px); color: var(--gold-soft); letter-spacing: .02em; }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); color: var(--gold); letter-spacing: -.055em; }
+}
+
+@keyframes ritualOrbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ritualOrbitReverse {
+  to { transform: rotate(-324deg); }
+}
+
+@keyframes ritualPulse {
+  0%, 100% { box-shadow: 0 0 35px rgba(178,138,59,.06); }
+  50% { box-shadow: 0 0 70px rgba(178,138,59,.18); }
+}
+
+@keyframes ritualFactIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__seal, .hero__seal-ring, .hero__title-word { animation: none; opacity: 1; }
+  .gallery__intro, .gallery__intro::before { animation: none; }
+  .ritual__circle--gold, .ritual__arc, .ritual__circle--inner, .ritual__copy.is-visible .ritual__facts div { animation: none; }
+}
