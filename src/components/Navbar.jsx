@@ -2,13 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.jpg";
 import { useLanguage } from "../context/LanguageContext";
 
-const links = [
-  ["#philosophy", "#philosophy"],
-  ["#treatments", "#treatments"],
-  ["#gallery", "#gallery"],
-  ["#ritual", "#ritual"],
-  ["#visit", "#visit"],
-];
+const sectionIds = ["philosophy", "treatments", "gallery", "ritual", "reviews"];
 
 const languages = [
   { code: "en", label: "English" },
@@ -17,6 +11,7 @@ const languages = [
 
 export default function Navbar({ compact }) {
   const { language, setLanguage, copy } = useLanguage();
+  const isBookingPage = window.location.pathname.replace(/\/+$/, "") === "/booking";
   const [open, setOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const languageRef = useRef(null);
@@ -49,17 +44,20 @@ export default function Navbar({ compact }) {
 
   return (
     <header className={`nav ${compact ? "nav--compact" : ""}`}>
-      <a className="nav__brand" href="#" aria-label="Beautywerk home">
+      <a className="nav__brand" href="/" aria-label="Beautywerk home">
         <img className="nav__brand-image" src={logo} alt="Beautywerk" />
       </a>
 
       <nav className={`nav__links ${open ? "is-open" : ""}`}>
-        {links.map(([key, href], index) => (
+        {sectionIds.map((sectionId, index) => {
+          const href = isBookingPage ? `/#${sectionId}` : `#${sectionId}`;
+          return (
           <a key={href} href={href} onClick={() => setOpen(false)}>
             {copy.nav.links[index]}
           </a>
-        ))}
-        <a className="nav__cta" href="#visit" onClick={() => setOpen(false)}>
+          );
+        })}
+        <a className="nav__cta" href="/booking" onClick={() => setOpen(false)}>
           {copy.nav.book} <span>↗</span>
         </a>
         <div className="language-switcher" ref={languageRef}>

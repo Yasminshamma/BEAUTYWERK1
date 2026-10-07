@@ -1,18 +1,18 @@
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  transform: translateY(16px);
+  transition: opacity var(--motion-slow) var(--ease), transform var(--motion-slow) var(--ease);
 }
 
 .reveal.is-visible { opacity: 1; transform: none; }
 
-.gallery-card.reveal { transform: translateY(28px) scale(.98); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.gallery-card.reveal { transform: translateY(20px) scale(.99); transition: opacity var(--motion-slow) var(--ease), transform var(--motion-slow) var(--ease); }
 .gallery-card.reveal.is-visible { transform: translateY(0) scale(1); }
-.gallery-card:nth-child(2) { transition-delay: .08s; }
-.gallery-card:nth-child(3) { transition-delay: .16s; }
-.gallery-card:nth-child(4) { transition-delay: .24s; }
+.gallery-card:nth-child(2) { transition-delay: .06s; }
+.gallery-card:nth-child(3) { transition-delay: .12s; }
+.gallery-card:nth-child(4) { transition-delay: .18s; }
 
-.gallery__intro { animation: galleryIntroReveal 1s .15s var(--ease) both; }
+.gallery__intro { animation: galleryIntroReveal .75s .1s var(--ease) both; }
 
 @keyframes galleryIntroReveal {
   from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateX(-12px); }
@@ -25,8 +25,8 @@
 }
 
 .hero__seal { animation: floatSeal 8s ease-in-out infinite; }
-.hero__title-word { opacity: 0; animation: heroWordIn .9s var(--ease) both; }
-.hero__title-word--accent { animation-name: heroAccentIn; animation-delay: .18s; }
+.hero__title-word { opacity: 0; animation: heroWordIn .72s var(--ease) both; }
+.hero__title-word--accent { animation-name: heroAccentIn; animation-delay: .12s; }
 
 @keyframes floatSeal {
   0%, 100% { transform: translateY(-50%) rotate(-1deg); }
@@ -47,12 +47,12 @@
 }
 
 @keyframes heroWordIn {
-  from { opacity: 0; transform: translateY(30px); filter: blur(8px); letter-spacing: .01em; }
+  from { opacity: 0; transform: translateY(18px); filter: blur(4px); letter-spacing: .01em; }
   to { opacity: 1; transform: translateY(0); filter: blur(0); letter-spacing: -.075em; }
 }
 
 @keyframes heroAccentIn {
-  from { opacity: 0; transform: translateY(30px); filter: blur(8px); color: var(--gold-soft); letter-spacing: .02em; }
+  from { opacity: 0; transform: translateY(18px); filter: blur(4px); color: var(--gold-soft); letter-spacing: .02em; }
   to { opacity: 1; transform: translateY(0); filter: blur(0); color: var(--gold); letter-spacing: -.055em; }
 }
 

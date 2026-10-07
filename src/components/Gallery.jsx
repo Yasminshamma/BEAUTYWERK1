@@ -1,30 +1,30 @@
+import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
-
-const images = [
-  {
-    src: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=1200&q=85",
-    className: "gallery-card gallery-card--large",
-    position: "center",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=900&q=85",
-    className: "gallery-card gallery-card--tall",
-    position: "center",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=85",
-    className: "gallery-card gallery-card--small",
-    position: "center",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1200&q=85",
-    className: "gallery-card gallery-card--wide",
-    position: "center",
-  },
-];
+import { getGallery } from "../lib/api";
 
 export default function Gallery() {
-  const { copy } = useLanguage();
+  const { language, copy } = useLanguage();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [reloadCount, setReloadCount] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    getGallery({ signal: controller.signal })
+      .then(({ items: storedItems }) => {
+        setItems(storedItems);
+        setLoadError("");
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setLoadError(error.message || copy.gallery.error);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [reloadCount]);
 
   return (
     <section className="gallery section" id="gallery">
@@ -40,17 +40,33 @@ export default function Gallery() {
         <p className="gallery__intro">{copy.gallery.intro}</p>
       </div>
 
-      <div className="gallery__grid">
-        {images.map((image, index) => (
-          <figure className={`${image.className} reveal`} key={image.src}>
-            <img src={image.src} alt={copy.gallery.alts[index]} loading="lazy" style={{ objectPosition: image.position }} />
-            <figcaption>
-              <span>0{index + 1}</span>
-              <span>{copy.gallery.captions[index]}</span>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      {loading && <p className="reviews__status" role="status">{copy.gallery.loading}</p>}
+      {loadError && (
+        <div className="reviews__status reviews__status--error" role="alert">
+          <p>{loadError || copy.gallery.error}</p>
+          <button className="button button--quiet" type="button" onClick={() => setReloadCount((count) => count + 1)}>
+            {copy.gallery.retry}
+          </button>
+        </div>
+      )}
+      {!loading && !loadError && items.length > 0 && (
+        <div className="gallery__grid">
+          {items.map((item, index) => (
+            <figure className={`gallery-card gallery-card--${item.layoutKey} reveal`} key={item.id}>
+              <img
+                src={item.imageUrl}
+                alt={item[`alt${language === "de" ? "De" : "En"}`]}
+                loading="lazy"
+                style={{ objectPosition: item.objectPosition }}
+              />
+              <figcaption>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{item[`caption${language === "de" ? "De" : "En"}`]}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

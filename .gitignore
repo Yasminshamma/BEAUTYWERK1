@@ -4,3 +4,6 @@ dist/
 .env.local
 .env.*.local
 buildlog.txt
+server/data/*.sqlite
+server/data/*.sqlite-shm
+server/data/*.sqlite-wal
